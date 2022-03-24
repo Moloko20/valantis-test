@@ -13,7 +13,7 @@ type CurrencyRowPropsType = {
     }
 }
 
-export function CurrencyRow({ currency }: CurrencyRowPropsType) {
+function CurrencyRowComponent({ currency }: CurrencyRowPropsType) {
     const [tooltipIsVisible, setTooltipIsVisible] = React.useState(true)
     const [tooltipCoords, setTooltipCoords] = React.useState([0, 0])
 
@@ -25,11 +25,14 @@ export function CurrencyRow({ currency }: CurrencyRowPropsType) {
         setTooltipIsVisible(false)
     }
 
-    const rowMoveHandler = (event: React.MouseEvent) => {
-        if (tooltipIsVisible) {
-            setTooltipCoords([event.pageX, event.pageY])
-        }
-    }
+    const rowMoveHandler = React.useCallback(
+        (event: React.MouseEvent) => {
+            if (tooltipIsVisible) {
+                setTooltipCoords([event.pageX, event.pageY])
+            }
+        },
+        [tooltipCoords],
+    )
 
     let different: number | string = +(
         (currency.Value / 100) *
@@ -60,7 +63,7 @@ export function CurrencyRow({ currency }: CurrencyRowPropsType) {
             >
                 <td>{currency.CharCode}</td>
                 <td>{currency.Value}</td>
-                <td colSpan={2} className={differentClassName}>
+                <td colSpan={2} className={'different' + differentClassName}>
                     {different}
                 </td>
                 <td>
@@ -70,3 +73,5 @@ export function CurrencyRow({ currency }: CurrencyRowPropsType) {
         </>
     )
 }
+
+export const CurrencyRow = React.memo(CurrencyRowComponent)
