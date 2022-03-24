@@ -1,6 +1,6 @@
 import React from 'react'
 
-export function CurrencyHead() {
+function CurrencyHeadComponent() {
     require('./index.sass')
 
     return (
@@ -13,3 +13,5 @@ export function CurrencyHead() {
         </thead>
     )
 }
+
+export const CurrencyHead = React.memo(CurrencyHeadComponent)
