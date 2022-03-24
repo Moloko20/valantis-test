@@ -19,9 +19,9 @@ export function CurrencyRow({ currency }: CurrencyRowPropsType) {
 
     return (
         <tr>
-            <th>{currency.CharCode}</th>
-            <th>{currency.Value}</th>
-            <th>{(currency.Value - currency.Previous).toFixed(3)}</th>
+            <td>{currency.CharCode}</td>
+            <td>{currency.Value}</td>
+            <td>{(currency.Value - currency.Previous).toFixed(3)}</td>
         </tr>
     )
 }

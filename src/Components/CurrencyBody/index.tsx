@@ -17,7 +17,7 @@ export function CurrencyBody() {
     require('./index.sass')
 
     return (
-        <tbody>
+        <tbody className="currency-body">
             {valutes.map(value => (
                 <CurrencyRow key={value[1].ID} currency={value[1]} />
             ))}
