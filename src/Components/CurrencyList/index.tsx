@@ -3,7 +3,7 @@ import React from 'react'
 import { CurrencyHead } from 'Components/CurrencyHead'
 import { CurrencyBody } from 'Components/CurrencyBody'
 
-export function CurrencyList() {
+function CurrencyListComponent() {
     require('./index.sass')
 
     return (
@@ -13,3 +13,5 @@ export function CurrencyList() {
         </table>
     )
 }
+
+export const CurrencyList = React.memo(CurrencyListComponent)
