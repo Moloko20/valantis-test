@@ -1,5 +1,7 @@
 .currency-body
     tr
+        cursor: pointer
+        
         td
             padding-left: 1rem
             padding-right: 1rem
@@ -10,9 +12,16 @@
 
             @include simple-text
 
-        &:nth-child(even) td
+            &:last-child
+                width: 0
+                padding: 0
+
+        &:hover
+            background-color: rgba($bg-table, 0.8)
+
+
+        &:nth-child(even)
             background-color: $bg-td--even
 
-    
-
-        
+            &:hover
+                background-color: rgba($bg-td--even, 0.8)
