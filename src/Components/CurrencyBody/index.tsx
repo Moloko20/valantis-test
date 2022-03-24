@@ -3,7 +3,7 @@ import React from 'react'
 import { CurrencyRow } from 'Components/CurrencyRow'
 import { getCurrency } from 'Services/getCurrency'
 
-export function CurrencyBody() {
+function CurrencyBodyComponent() {
     const [valutes, setValutes] = React.useState([])
 
     React.useEffect(() => {
@@ -24,3 +24,5 @@ export function CurrencyBody() {
         </tbody>
     )
 }
+
+export const CurrencyBody = React.memo(CurrencyBodyComponent)
