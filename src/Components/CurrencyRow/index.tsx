@@ -1,4 +1,5 @@
 import React from 'react'
+import { Tooltip } from 'Components/UI/Tooltip'
 
 type CurrencyRowPropsType = {
     currency: {
@@ -13,9 +14,22 @@ type CurrencyRowPropsType = {
 }
 
 export function CurrencyRow({ currency }: CurrencyRowPropsType) {
-    require('./index.sass')
+    const [tooltipIsVisible, setTooltipIsVisible] = React.useState(true)
+    const [tooltipCoords, setTooltipCoords] = React.useState([0, 0])
 
-    console.log(currency)
+    const rowHoverHandler = () => {
+        setTooltipIsVisible(true)
+    }
+
+    const rowUnHoverHandler = () => {
+        setTooltipIsVisible(false)
+    }
+
+    const rowMoveHandler = (event: React.MouseEvent) => {
+        if (tooltipIsVisible) {
+            setTooltipCoords([event.pageX, event.pageY])
+        }
+    }
 
     let different: number | string = +(
         (currency.Value / 100) *
@@ -35,11 +49,24 @@ export function CurrencyRow({ currency }: CurrencyRowPropsType) {
         different = different + '.0'
     }
 
+    require('./index.sass')
+
     return (
-        <tr>
-            <td>{currency.CharCode}</td>
-            <td>{currency.Value}</td>
-            <td className={differentClassName}>{different}</td>
-        </tr>
+        <>
+            <tr
+                onMouseEnter={rowHoverHandler}
+                onMouseLeave={rowUnHoverHandler}
+                onMouseMove={rowMoveHandler}
+            >
+                <td>{currency.CharCode}</td>
+                <td>{currency.Value}</td>
+                <td colSpan={2} className={differentClassName}>
+                    {different}
+                </td>
+                <td>
+                    {tooltipIsVisible && <Tooltip value={currency.Name} coords={tooltipCoords} />}
+                </td>
+            </tr>
+        </>
     )
 }
