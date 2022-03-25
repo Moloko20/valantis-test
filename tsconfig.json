@@ -15,7 +15,8 @@
             "App": ["src/App"],
             "Components/*": ["src/Components/*"],
             "Shared/*": ["src/Shared/*"],
-            "Services/*": ["src/Services/*"]
+            "Services/*": ["src/Services/*"],
+            "Contexts/*": ["src/Contexts/*"]
         },
         "resolveJsonModule": true,
         "noEmitOnError": true,
