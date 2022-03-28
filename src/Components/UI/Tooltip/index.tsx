@@ -7,8 +7,8 @@ type TooltipPropsType = {
 
 function TooltipComponent({ value, coords }: TooltipPropsType) {
     const style: React.CSSProperties = {
-        top: coords[1] + 15,
-        left: coords[0] + 15,
+        top: coords[1] - 80,
+        left: coords[0] - 90,
         visibility: coords[0] === 0 ? 'hidden' : 'visible',
     }
 
