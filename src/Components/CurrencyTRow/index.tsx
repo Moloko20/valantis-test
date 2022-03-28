@@ -17,12 +17,14 @@ type CurrencyRowPropsType = {
 }
 
 function CurrencyRowComponent({ currency }: CurrencyRowPropsType) {
-    const [tooltipIsVisible, setTooltipIsVisible] = React.useState(true)
+    const [tooltipIsVisible, setTooltipIsVisible] = React.useState(false)
     const [tooltipCoords, setTooltipCoords] = React.useState([0, 0])
     const context = React.useContext(Context)
 
     const rowHoverHandler = () => {
-        setTooltipIsVisible(true)
+        if (!currency.Date) {
+            setTooltipIsVisible(true)
+        }
     }
 
     const rowUnHoverHandler = () => {
@@ -35,7 +37,7 @@ function CurrencyRowComponent({ currency }: CurrencyRowPropsType) {
                 setTooltipCoords([event.pageX, event.pageY])
             }
         },
-        [tooltipCoords],
+        [tooltipIsVisible],
     )
 
     const rowClickHandler = React.useCallback(() => {
