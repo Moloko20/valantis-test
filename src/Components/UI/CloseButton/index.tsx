@@ -5,10 +5,10 @@ type CloseButtonPropsType = {
 }
 
 function CloseButtonComponent({ clickHandler }: CloseButtonPropsType) {
-    const btnClickNandler = (event: React.MouseEvent) => {
+    const btnClickNandler = React.useCallback((event: React.MouseEvent) => {
         event.preventDefault()
         clickHandler()
-    }
+    }, [])
 
     require('./index.sass')
 
