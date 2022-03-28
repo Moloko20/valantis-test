@@ -1,21 +1,25 @@
 import React from 'react'
+
 import { Tooltip } from 'Components/UI/Tooltip'
+import { Context } from 'Contexts/context'
+
+export type CurrencyDataType = {
+    ID: string
+    Name: string
+    Previous: number
+    Value: number
+    Date?: string
+    CharCode?: string
+}
 
 type CurrencyRowPropsType = {
-    currency: {
-        CharCode: string
-        ID: string
-        Name: string
-        Nominal: number
-        NumCode: string
-        Previous: number
-        Value: number
-    }
+    currency: CurrencyDataType
 }
 
 function CurrencyRowComponent({ currency }: CurrencyRowPropsType) {
     const [tooltipIsVisible, setTooltipIsVisible] = React.useState(true)
     const [tooltipCoords, setTooltipCoords] = React.useState([0, 0])
+    const context = React.useContext(Context)
 
     const rowHoverHandler = () => {
         setTooltipIsVisible(true)
@@ -33,6 +37,10 @@ function CurrencyRowComponent({ currency }: CurrencyRowPropsType) {
         },
         [tooltipCoords],
     )
+
+    const rowClickHandler = React.useCallback(() => {
+        context.setCurrentName(currency.Name)
+    }, [])
 
     let different: number | string = +(
         (currency.Value / 100) *
@@ -60,8 +68,13 @@ function CurrencyRowComponent({ currency }: CurrencyRowPropsType) {
                 onMouseEnter={rowHoverHandler}
                 onMouseLeave={rowUnHoverHandler}
                 onMouseMove={rowMoveHandler}
+                onClick={rowClickHandler}
             >
-                <td>{currency.CharCode}</td>
+                {currency.Date ? (
+                    <td>{currency.Date.split('T')[0].split('-').reverse().join('.')}</td>
+                ) : (
+                    <td>{currency.CharCode}</td>
+                )}
                 <td>{currency.Value}</td>
                 <td colSpan={2} className={'different' + differentClassName}>
                     {different}
