@@ -4,23 +4,23 @@ import ReactDOM from 'react-dom'
 import { Context } from 'Contexts/context'
 
 import { CurrencyList } from 'Components/CurrencyList'
-import { CurrencyPopup } from 'Components/CurrencyPopup'
+import { CurrencyHistory } from 'Components/CurrencyHistory'
 
 function App() {
-    const [currentCurrencyName, setCurrentCurrencyName] = React.useState('')
+    const [currentCurrencyName, currentCurrencyNameSet] = React.useState('')
 
     require('./index.sass')
 
     return (
         <Context.Provider
             value={{
-                setCurrentName: setCurrentCurrencyName,
+                setCurrentName: currentCurrencyNameSet,
             }}
         >
             <div className="wrapper">
                 <div className="wrapper-container">
                     <CurrencyList />
-                    <CurrencyPopup currentName={currentCurrencyName} />
+                    <CurrencyHistory currentName={currentCurrencyName} />
                 </div>
 
                 <a href="https://www.cbr-xml-daily.ru/">Виджет курсов валют</a>
