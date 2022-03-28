@@ -27,14 +27,14 @@ export function CurrencyPopup({ currentName }: CurrencyPopupPropsType) {
     return (
         <section className="section section-popup">
             {currentPopupName ? (
-                <>
+                <div className="section-popup__wrapper">
                     <div className="section-header">
                         <h1>{currentPopupName}</h1>
                         <CloseButton clickHandler={btnClickNandler} />
                     </div>
 
                     <CurrencyOldList currentName={currentPopupName} />
-                </>
+                </div>
             ) : (
                 <div className="section-popup__info">
                     Чтобы посмотреть историю курса валюты за&nbsp;последние 10&nbsp;дней, выберите
