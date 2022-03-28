@@ -6,3 +6,55 @@
     margin-bottom: 2rem
 
     border: 1px solid #1b4332
+
+    &-head
+        th
+            padding-left: 1rem
+            padding-right: 1rem
+            padding-top: 1.5rem
+            padding-bottom: 1.5rem
+
+            background-color: $bg-thead
+
+            font-weight: bold
+            text-align: left
+
+            @include simple-text    
+    
+    &-body
+        tr
+            cursor: pointer
+
+            td
+                padding-left: 1rem
+                padding-right: 1rem
+                padding-top: 1.5rem
+                padding-bottom: 1.5rem
+
+                text-align: left
+
+                @include simple-text
+
+                &.loading
+                    text-align: center
+
+                &.tooltip_wrapper
+                    padding: 0
+
+                &.different--up
+                    color: #00a1ff
+
+                &.different--down
+                    color: #df0000  
+
+            &:hover
+                background-color: rgba($bg-table, 0.8)
+
+
+            &:nth-child(even)
+                background-color: $bg-td--even
+
+                &:hover
+                    background-color: rgba($bg-td--even, 0.8)
+
+                     
