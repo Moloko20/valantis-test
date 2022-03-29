@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { getCurrency, getCurrencyHistory, ValuteItem, CurrencyData } from 'Services/getCurrency'
+import { getCurrency, getCurrencyHistory, ValuteItem } from 'Services/getCurrency'
 
 import { CloseButton } from 'Components/UI/CloseButton'
 import { Loader } from 'Components/UI/Loader'
@@ -15,7 +15,7 @@ function CurrencyHistoryComponent({ currentName }: CurrencyHistoryPropsType) {
     const [currentCurrencyName, currentCurrencyNameSet] = React.useState('')
     const [loading, loadingSet] = React.useState<boolean>(false)
 
-    const [valutes, valutesSet] = React.useState<Array<ValuteItem>>([])
+    const [currencies, currenciesSet] = React.useState<Array<ValuteItem>>([])
 
     const [days, daysSet] = React.useState<Array<string>>([])
     const currencyPrevURL = React.useRef<string>(null)
@@ -45,20 +45,20 @@ function CurrencyHistoryComponent({ currentName }: CurrencyHistoryPropsType) {
 
             currentCurrencyNameSet(currentName)
 
-            if (valutes.length > 0) {
-                valutesSet([])
+            if (currencies.length > 0) {
+                currenciesSet([])
             }
 
             getCurrencyHistory(currencyPrevURL.current)
                 .then(data => {
-                    data.forEach((currencyData: CurrencyData) => {
+                    data.forEach(currencyData => {
                         daysSet(prevState => [...prevState, currencyData.Date])
 
                         const currency = Object.values(currencyData.Valute).find(
                             obj => obj.Name === currentName,
                         )
 
-                        valutesSet(prevState => [...prevState, currency])
+                        currenciesSet(prevState => [...prevState, currency])
                     })
                 })
                 .finally(() => loadingSet(false))
@@ -66,27 +66,22 @@ function CurrencyHistoryComponent({ currentName }: CurrencyHistoryPropsType) {
     }, [currentName])
 
     React.useEffect(() => {
-        if (valutes.length === 10) {
+        if (currencies.length === 10) {
             differentsSet([])
 
-            valutes.forEach(obj => {
+            currencies.forEach(obj => {
                 if (!obj) {
-                    console.log('yes')
                     differentsSet(prevState => [...prevState, '0'])
                 } else {
                     let different = (
                         Math.round(+(100 - (obj.Previous * 100) / obj.Value).toFixed(3) * 10) / 10
                     ).toString()
 
-                    if (different.length < 3) {
-                        different = different + '.0'
-                    }
-
                     differentsSet(prevState => [...prevState, different])
                 }
             })
         }
-    }, [valutes])
+    }, [currencies])
 
     return (
         <section className="section section-history">
@@ -108,7 +103,7 @@ function CurrencyHistoryComponent({ currentName }: CurrencyHistoryPropsType) {
 
                         <tbody className="currency-body">
                             {!loading ? (
-                                valutes.map((currencyItem, index) => {
+                                currencies.map((currencyItem, index) => {
                                     if (!currencyItem) {
                                         return (
                                             <tr key={`${currencyItem}${index}`}>
@@ -133,7 +128,9 @@ function CurrencyHistoryComponent({ currentName }: CurrencyHistoryPropsType) {
                                                         : 'different--down'
                                                 }
                                             >
-                                                {differents[index]}
+                                                {differents[index].length < 3
+                                                    ? Math.abs(+differents[index]) + '.0'
+                                                    : Math.abs(+differents[index])}
                                             </td>
                                         </tr>
                                     )
