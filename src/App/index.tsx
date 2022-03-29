@@ -14,7 +14,7 @@ function App() {
     return (
         <Context.Provider
             value={{
-                setCurrentName: currentCurrencyNameSet,
+                currentNameSet: currentCurrencyNameSet,
             }}
         >
             <div className="wrapper">
@@ -23,7 +23,9 @@ function App() {
                     <CurrencyHistory currentName={currentCurrencyName} />
                 </div>
 
-                <a href="https://www.cbr-xml-daily.ru/">Виджет курсов валют</a>
+                <a href="https://www.cbr-xml-daily.ru/" target="_blank">
+                    Виджет курсов валют
+                </a>
             </div>
         </Context.Provider>
     )
