@@ -10,10 +10,10 @@ import { Tooltip } from 'Components/UI/Tooltip'
 const HEAD_TITLES: string[] = ['Наименование валюты', 'Значение, ₽', 'Разница, %']
 
 function useDebounce<T>(value: T, delay?: number): T {
-    const [debouncedValue, setDebouncedValue] = React.useState<T>(value)
+    const [debouncedValue, debouncedValueSet] = React.useState<T>(value)
 
     React.useEffect(() => {
-        const timer = setTimeout(() => setDebouncedValue(value), delay || 500)
+        const timer = setTimeout(() => debouncedValueSet(value), delay || 500)
 
         return () => {
             clearTimeout(timer)
@@ -24,7 +24,7 @@ function useDebounce<T>(value: T, delay?: number): T {
 }
 
 function CurrencyListComponent() {
-    const [valutes, valutesSet] = React.useState<Array<ValuteItem>>([])
+    const [currencies, currenciesSet] = React.useState<Array<ValuteItem>>([])
     const [loading, loadingSet] = React.useState<boolean>(false)
 
     const [currentCurrencyName, currentCurrencyNameSet] = React.useState('')
@@ -42,7 +42,7 @@ function CurrencyListComponent() {
 
         getCurrency()
             .then(data => {
-                valutesSet(Object.values(data.Valute))
+                currenciesSet(Object.values(data.Valute))
             })
             .finally(() => {
                 loadingSet(false)
@@ -52,26 +52,21 @@ function CurrencyListComponent() {
     React.useEffect(() => {
         differentsSet([])
 
-        valutes.forEach(obj => {
+        currencies.forEach(obj => {
             if (!obj) {
-                console.log('yes')
                 differentsSet(prevState => [...prevState, '0'])
             } else {
                 let different = (
                     Math.round(+(100 - (obj.Previous * 100) / obj.Value).toFixed(3) * 10) / 10
                 ).toString()
 
-                if (different.length < 3) {
-                    different = different + '.0'
-                }
-
                 differentsSet(prevState => [...prevState, different])
             }
         })
-    }, [valutes])
+    }, [currencies])
 
     const rowClickHandler = React.useCallback((currencyName: string) => {
-        context.setCurrentName(currencyName)
+        context.currentNameSet(currencyName)
     }, [])
 
     const rowHoverHandler = React.useCallback((currencyName: string) => {
@@ -106,7 +101,7 @@ function CurrencyListComponent() {
 
                 <tbody className="currency-body">
                     {!loading ? (
-                        valutes.map((currencyItem, index) => (
+                        currencies.map((currencyItem, index) => (
                             <tr
                                 onMouseEnter={() => rowHoverHandler(currencyItem.Name)}
                                 onMouseLeave={rowUnHoverHandler}
@@ -123,7 +118,9 @@ function CurrencyListComponent() {
                                             : 'different--down'
                                     }
                                 >
-                                    {differents[index]}
+                                    {differents[index].length < 3
+                                        ? Math.abs(+differents[index]) + '.0'
+                                        : Math.abs(+differents[index])}
                                 </td>
                             </tr>
                         ))
