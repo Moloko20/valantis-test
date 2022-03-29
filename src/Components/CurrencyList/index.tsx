@@ -110,7 +110,7 @@ function CurrencyListComponent() {
                                 key={currencyItem.ID}
                             >
                                 <td>{currencyItem.CharCode}</td>
-                                <td>{currencyItem.Value}</td>
+                                <td>{currencyItem.Value.toFixed(2)}</td>
                                 <td
                                     className={
                                         +differents[index] >= 0

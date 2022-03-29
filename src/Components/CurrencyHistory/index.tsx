@@ -120,7 +120,7 @@ function CurrencyHistoryComponent({ currentName }: CurrencyHistoryPropsType) {
                                                     .reverse()
                                                     .join('.')}
                                             </td>
-                                            <td>{currencyItem.Value}</td>
+                                            <td>{currencyItem.Value.toFixed(2)}</td>
                                             <td
                                                 className={
                                                     +differents[index] >= 0
